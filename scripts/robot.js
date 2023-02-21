@@ -39,7 +39,7 @@ class Robot {
         this.v_r = V_r
 
         // get transformed state
-        const transformer = new Drive(length)
+        const transformer = new Drive(this.s)
         const transformed = transformer.states(this.v_l, this.v_r)
         const omega = transformed[0]
         const R = transformed[1]
@@ -70,19 +70,41 @@ class Robot {
             multiplyMatrix(transformMatrix, translatedPos),
             translationVec
         )
+        
+        // return
         this.x = statef[0]
         this.y = statef[1]
         this.theta = statef[2]
     }
 
     // graphics
+    rotate = (coordinate, angle, center) => {
+        // rotate `coordinate` by an `angle` about `center`
+        
+        // translate
+        const translated = [coordinate[0] - center[0], coordinate[1] - center[1]]
+
+        // rotate
+        const rotationMatrix = [
+            [Math.cos(angle), -Math.sin(angle)],
+            [Math.sin(angle), Math.cos(angle)]
+        ]
+        const rotated = multiplyMatrix(rotationMatrix, translated)
+
+        // translate back
+        const out = [rotated[0] + center[0], rotated[1] + center[1]]
+        return out
+    }
+
     draw = () => {
         // positioning
         const x = this.x
         const y = this.y
         const r = this.s / 2
-        // TODO: show rotation
-        // TODO: debug movement
+        const T = this.theta - Math.PI / 2
+
+        // center
+        const center = [x, y]
 
         // wheels
         two.fill = true
@@ -93,18 +115,18 @@ class Robot {
         const w_w = r * 0.25
         const h_w = r * 1.5
         two.polygon([
-            [x_w_left, y_w],
-            [x_w_left + w_w, y_w],
-            [x_w_left + w_w, y_w + h_w],
-            [x_w_left, y_w + h_w]
+            this.rotate([x_w_left, y_w], T, center),
+            this.rotate([x_w_left + w_w, y_w], T, center),
+            this.rotate([x_w_left + w_w, y_w + h_w], T, center),
+            this.rotate([x_w_left, y_w + h_w], T, center)
         ])
 
         const x_w_right = x + r * 1.25 - w_w
         two.polygon([
-            [x_w_right, y_w],
-            [x_w_right + w_w, y_w],
-            [x_w_right + w_w, y_w + h_w],
-            [x_w_right, y_w + h_w]
+            this.rotate([x_w_right, y_w], T, center),
+            this.rotate([x_w_right + w_w, y_w], T, center),
+            this.rotate([x_w_right + w_w, y_w + h_w], T, center),
+            this.rotate([x_w_right, y_w + h_w], T, center)
         ])
 
         // frame
@@ -113,10 +135,10 @@ class Robot {
         two.strokeStyle = '#ccc'
         two.fillStyle = '#999'
         two.polygon([
-            [x - r, y - r],
-            [x + r, y - r],
-            [x + r, y + r],
-            [x - r, y + r]
+            this.rotate([x - r, y - r], T, center),
+            this.rotate([x + r, y - r], T, center),
+            this.rotate([x + r, y + r], T, center),
+            this.rotate([x - r, y + r], T, center)
         ])
 
         // axes
@@ -127,19 +149,19 @@ class Robot {
         two.fillStyle = '#f00'
         two.stroke = false
         two.polygon([
-            [x_a, y_a_top],
-            [x_a + w_a, y_a_top],
-            [x_a + w_a, y_a_top + h_a],
-            [x_a, y_a_top + h_a]
+            this.rotate([x_a, y_a_top], T, center),
+            this.rotate([x_a + w_a, y_a_top], T, center),
+            this.rotate([x_a + w_a, y_a_top + h_a], T, center),
+            this.rotate([x_a, y_a_top + h_a], T, center)
         ])
 
         const y_a_bottom = y - r * 0.75 - h_a
         two.fillStyle = '#00f'
         two.polygon([
-            [x_a, y_a_bottom],
-            [x_a + w_a, y_a_bottom],
-            [x_a + w_a, y_a_bottom + h_a],
-            [x_a, y_a_bottom + h_a]
+            this.rotate([x_a, y_a_bottom], T, center),
+            this.rotate([x_a + w_a, y_a_bottom], T, center),
+            this.rotate([x_a + w_a, y_a_bottom + h_a], T, center),
+            this.rotate([x_a, y_a_bottom + h_a], T, center)
         ])
     }
 }

@@ -10,9 +10,16 @@ canvas.height = size
 const robot = new Robot(5, 5, Math.PI / 2, 2.25, 1)
 const StandardDrive = new Standard(robot, 1)
 
+// initialize joystick state
+let magnitude = 0
+let angle = Math.PI / 2
+
 // drive mode callbacks
 const standard = (magnitude, angle) => {
-    const velocities = StandardDrive.set(magnitude, angle, [robot.x, robot.y, robot.theta])
+    const velocities = StandardDrive.set(
+        magnitude, angle,
+        [robot.x, robot.y, robot.theta]
+    )
     robot.delta(velocities[0], velocities[1], 0.05)
 }
 
@@ -43,6 +50,15 @@ refresh()
 let move = false
 const R = 1
 
+// update
+const update = () => {
+    joystick.set(magnitude, angle)
+    refresh()
+    setTimeout(update, 50)
+}
+update()
+
+// event listeners
 canvas.addEventListener('mousedown', e => {
     const xpos = e.clientX - canvas.offsetLeft
     const ypos = e.clientY - canvas.offsetTop
@@ -55,6 +71,8 @@ canvas.addEventListener('mousedown', e => {
 })
 canvas.addEventListener('mouseup', () => {
     move = false
+    magnitude = 0
+    angle = 0
     joystick.reset()
     refresh()
 })
@@ -71,11 +89,8 @@ canvas.addEventListener('mousemove', e => {
     const dX = transformed[0] - X
     const dY = transformed[1] - Y
 
-    let magnitude = Math.hypot(dX, dY)
+    magnitude = Math.hypot(dX, dY)
     magnitude > R ? magnitude = R : null
-    let angle = Math.atan(dY / dX)
+    angle = Math.atan(dY / dX)
     dX < 0 ? angle += Math.PI : null
-
-    joystick.set(magnitude, angle)
-    refresh()
 })

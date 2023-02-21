@@ -31,7 +31,7 @@ class Standard {
         const pose = state[2] % (2 * Math.PI)
         const dTheta = Math.abs(theta - pose)
         if (dTheta < this.thetaEpsilon) {
-            const power = lerp(0, this.max, r)
+            const power = this.lerp(0, this.max, r)
             return [power, power]
         }
 
@@ -39,7 +39,7 @@ class Standard {
         const reversed = (pose + Math.PI) % (2 * Math.PI)
         const dThetaBackwards = Math.abs(theta - reversed)
         if (dThetaBackwards < this.thetaEpsilon) {
-            const power = lerp(0, -this.max, r)
+            const power = this.lerp(0, -this.max, r)
             return [power, power]
         }
 
@@ -58,7 +58,7 @@ class Standard {
             return [-this.max, this.max]
         } else {
             // right turn
-            return [-this.max, this.max]
+            return [this.max, -this.max]
         }
     }
 }
