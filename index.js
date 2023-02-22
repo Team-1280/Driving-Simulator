@@ -18,6 +18,9 @@ let angle = Math.PI / 2
 let centerX = 5
 let centerY = 5
 
+// initialize robot path
+let path = [[5, 5], [5, 5]]
+
 // calculate new camera center
 const correctCenter = () => {
     // get offset
@@ -69,6 +72,17 @@ const refresh = () => {
     // add grid
     two.lineWidth = 1
     two.grid(1, '#000')
+
+    // add center dot
+    two.fillStyle = '#a0f'
+    two.circle([5, 5], 0.3)
+
+    // trace path
+    two.strokeStyle = '#4c8'
+    two.lineWidth = 3
+    for (let i = 0; i < path.length - 1; i++) {
+        two.segment(path[i], path[i + 1])
+    }
     
     // robot
     robot.draw()
@@ -89,6 +103,16 @@ const update = () => {
     setTimeout(update, 50)
 }
 update()
+
+// path tracer
+const trace = () => {
+    path.push([robot.x, robot.y])
+    if (path.length >= 1000) {
+        path.shift()
+    }
+    setTimeout(trace, 500)
+}
+trace()
 
 // event listeners
 canvas.addEventListener('mousedown', e => {
