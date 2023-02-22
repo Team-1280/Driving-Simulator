@@ -74,7 +74,7 @@ const refresh = () => {
     two.grid(1, '#000')
 
     // add center dot
-    two.fillStyle = '#a0f'
+    two.fillStyle = '#fff'
     two.circle([5, 5], 0.3)
 
     // trace path
