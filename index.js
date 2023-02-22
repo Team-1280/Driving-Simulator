@@ -78,8 +78,8 @@ const refresh = () => {
     two.circle([5, 5], 0.3)
 
     // trace path
-    two.strokeStyle = '#4c8'
-    two.lineWidth = 3
+    two.strokeStyle = '#4c85'
+    two.lineWidth = 5
     for (let i = 0; i < path.length - 1; i++) {
         two.segment(path[i], path[i + 1])
     }

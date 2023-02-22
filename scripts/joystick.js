@@ -41,5 +41,7 @@ class Joystick {
         two.fillStyle = '#08f'
         const loc = this.coordinates()
         two.circle([this.x + loc[0] + dX, this.y + loc[1] + dY], this.s / 8)
+        two.fillStyle = '#08f5'
+        two.circle([this.x + loc[0] + dX, this.y + loc[1] + dY], this.s / 5)
     }
 }
