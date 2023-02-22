@@ -46,7 +46,7 @@ const correctCenter = () => {
 const standard = (magnitude, angle) => {
     const velocities = StandardDrive.set(
         magnitude, angle,
-        [robot.x, robot.y, robot.theta]
+        [robot.x, robot.y, (robot.theta) % (2 * Math.PI)]
     )
     robot.delta(velocities[0], velocities[1], 0.05)
 }

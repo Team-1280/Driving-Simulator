@@ -36,8 +36,8 @@ class Standard {
         }
 
         // check angle tolerance for backwards movement
-        const reversed = (pose + Math.PI) % (2 * Math.PI)
-        const dThetaBackwards = Math.abs(theta - reversed)
+        const reversed = (theta + Math.PI) % (2 * Math.PI)
+        const dThetaBackwards = Math.abs(reversed - pose)
         if (dThetaBackwards < this.thetaEpsilon) {
             const power = this.lerp(0, -this.max, r)
             return [power, power]

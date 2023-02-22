@@ -50,8 +50,8 @@ public class Modes {
             }
     
             // check angle tolerance for backwards movement
-            double reversed = (pose + Math.PI) % (2 * Math.PI);
-            double dThetaBackwards = Math.abs(theta - reversed);
+            double reversed = (theta + Math.PI) % (2 * Math.PI);
+            double dThetaBackwards = Math.abs(reversed - pose);
             if (dThetaBackwards < thetaEpsilon) {
                 double power = lerp(0, -max, r);
                 return new double[] {power, power};
