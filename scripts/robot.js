@@ -1,12 +1,11 @@
 // create robot class
 class Robot {
-    constructor(x, y, theta, size, max_v) {
+    constructor(x, y, theta, size) {
         // parameters
         this.x = x
         this.y = y
         this.theta = theta
         this.s = size
-        this.max = max_v
         this.v_l = 0
         this.v_r = 0
     }

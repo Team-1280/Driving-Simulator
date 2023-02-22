@@ -7,8 +7,8 @@ canvas.width = size
 canvas.height = size
 
 // initialize drive modes
-const robot = new Robot(5, 5, Math.PI / 2, 2.25, 1)
-const StandardDrive = new Standard(robot, 1)
+const robot = new Robot(5, 5, Math.PI / 2, 2.25)
+const StandardDrive = new Standard(robot, 2)
 
 // initialize joystick state
 let magnitude = 0
