@@ -66,7 +66,7 @@ public class Modes {
             }
     
             // find turning direction to target
-            double turnAngle = target - theta;
+            double turnAngle = pose - target;
             if (turnAngle < 0) {
                 // left turn
                 return new double[] {-max, max};

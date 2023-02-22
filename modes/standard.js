@@ -11,8 +11,8 @@ class Standard {
     constructor(driver, U, r_tolerance, theta_tolerance) {
         this.robot = driver
         this.max = U
-        this.rEpsilon = r_tolerance || 5e-2
-        this.thetaEpsilon = theta_tolerance || 7e-2
+        this.rEpsilon = r_tolerance || 0.1
+        this.thetaEpsilon = theta_tolerance || 0.1
     }
 
     lerp = (a, b, u) => {
@@ -52,7 +52,7 @@ class Standard {
         }
 
         // find turning direction to target
-        const turnAngle = target - theta
+        const turnAngle = pose - target
         if (turnAngle < 0) {
             // left turn
             return [-this.max, this.max]
