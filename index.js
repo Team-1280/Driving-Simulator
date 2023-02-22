@@ -14,6 +14,31 @@ const StandardDrive = new Standard(robot, 2)
 let magnitude = 0
 let angle = Math.PI / 2
 
+// initialize camera state
+let centerX = 5
+let centerY = 5
+
+// calculate new camera center
+const correctCenter = () => {
+    // get offset
+    const offsetX = Math.abs(robot.x - centerX)
+    const offsetY = Math.abs(robot.y - centerY)
+
+    // define max offset
+    const maxOffsetX = 2
+    const maxOffsetY = 2
+
+    // compare offsets
+    if (offsetX > maxOffsetX) {
+        const dX = offsetX - maxOffsetX
+        robot.x - centerX > 0 ? centerX += dX : centerX -= dX
+    }
+    if (offsetY > maxOffsetY) {
+        const dY = offsetY - maxOffsetY
+        robot.y - centerY > 0 ? centerY += dY : centerY -= dY      
+    }
+}
+
 // drive mode callbacks
 const standard = (magnitude, angle) => {
     const velocities = StandardDrive.set(
@@ -27,22 +52,29 @@ const standard = (magnitude, angle) => {
 const ctx = canvas.getContext('2d')
 const two = new hulet.Cartesian(ctx, 10, 10)
 const joystick = new Joystick(8, 2, 1.25, standard)
-two.Camera.center = [5, 5]
 
 const refresh = () => {
     // clear
     two.clear()
 
+    // set camera to follow robot
+    correctCenter()
+    two.Camera.center = [centerX, centerY]
+
     // background
     two.stroke = false
     two.fillStyle = '#333'
     two.polygon([[0, 0], [0, 10], [10, 10], [10, 0]])
-    
-    // joystick
-    joystick.draw()
+
+    // add grid
+    two.lineWidth = 1
+    two.grid(1, '#000')
     
     // robot
     robot.draw()
+
+    // joystick
+    joystick.draw(centerX, centerY)
 }
 refresh()
 
@@ -63,8 +95,8 @@ canvas.addEventListener('mousedown', e => {
     const xpos = e.clientX - canvas.offsetLeft
     const ypos = e.clientY - canvas.offsetTop
 
-    const X = joystick.x
-    const Y = joystick.y
+    const X = joystick.x + centerX - 5
+    const Y = joystick.y + centerY - 5
 
     const transformed = two.Camera.transform([X, Y])
     if (Math.hypot(xpos - transformed[0], ypos - transformed[1]) < 50) move = true
@@ -78,13 +110,13 @@ canvas.addEventListener('mouseup', () => {
 })
 canvas.addEventListener('mousemove', e => {
     if (!move) return
-
+    
     let xpos = e.clientX - canvas.offsetLeft
     let ypos = e.clientY - canvas.offsetTop
 
     const transformed = two.Camera.invTransform([xpos, ypos])
-    const X = joystick.x
-    const Y = joystick.y
+    const X = joystick.x + centerX - 5
+    const Y = joystick.y + centerY - 5
     
     const dX = transformed[0] - X
     const dY = transformed[1] - Y

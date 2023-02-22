@@ -26,16 +26,20 @@ class Joystick {
     reset = () => this.set(0, 0)
 
     // graphics
-    draw = () => {
+    draw = (X, Y) => {
+        // calculate center offset
+        const dX = X - 5
+        const dY = Y - 5
+
         // frame
         two.stroke = false
         two.fill = true
         two.fillStyle = '#111'
-        two.circle([this.x, this.y], this.s)
+        two.circle([this.x + dX, this.y + dY], this.s)
 
         // state
         two.fillStyle = '#08f'
         const loc = this.coordinates()
-        two.circle([this.x + loc[0], this.y + loc[1]], this.s / 8)
+        two.circle([this.x + loc[0] + dX, this.y + loc[1] + dY], this.s / 8)
     }
 }
