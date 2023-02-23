@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Driving Simulator</title>
+        <meta name="description" content="Simulate robot drive modes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+            height: 100vh;
+            background-color: #333;
+        }
+        #fullscreen {
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <body>
+        <canvas id="fullscreen"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/hulet@0.1.4/dist/hulet.min.js"></script>
+        <script src="../scripts/matrix.js"></script>
+        <script src="../scripts/drive.js"></script>
+        <script src="../modes/standard.js"></script>
+        <script src="../scripts/robot.js"></script>
+        <script src="./controller.js"></script>
+        <script src="./index.js" async defer></script>
+    </body>
+</html>
