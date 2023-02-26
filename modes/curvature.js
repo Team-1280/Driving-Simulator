@@ -36,7 +36,7 @@ class Curvature {
             r = 0
         } if (Math.abs(theta) < this.thetaEpsilon) {
             theta = 0
-        }
+        }   
 
         // straight line movement
         if (theta == 0) {
@@ -45,18 +45,19 @@ class Curvature {
             return [power, power]
         }
 
+        // calculate parameter bounds
+        const theta_k = theta / 2 + 1 / 2
+        const omega_max = 2 * this.max / this.robot.s
+        const omega = this.lerp(-omega_max, omega_max, theta_k)
+
         // calculate new parameters
-        const R = r / theta
-        let velocities = this.robot.velocities(theta, R)
-
-        // calculate scaling factor
-        const r_scaled = Math.abs(r)
-        const theta_scaled = Math.abs(theta)
-        const k = (r_scaled + theta_scaled) / 2
-
-        // scale output
-        velocities[0] *= k
-        velocities[1] *= k
+        let R
+        if (omega > 0) {
+            R = (2 * this.max - omega * this.robot.s) / (2 * omega)
+        } else {
+            R = (2 * this.max + omega * this.robot.s) / (2 * omega)
+        }
+        let velocities = this.robot.velocities(omega, R)
 
         return velocities
     }
