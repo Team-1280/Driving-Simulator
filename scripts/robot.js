@@ -12,7 +12,7 @@ class Robot {
 
     // internals
     move = (X, Y) => {
-        this.x = X 
+        this.x = X
         this.y = Y
     }
     reset = () => this.move(0, 0)
@@ -37,7 +37,7 @@ class Robot {
         const out = [omega, R]
         return out
     }
-    velocities = (omega, R) =>{
+    velocities = (omega, R) => {
         // get wheel velocities (m/s) as list [v_l, v_r]
         // omega (s^-1): angular velocity (positive = counterclockwise)
         // R (m): radius of curvature, as measured from robot center
@@ -111,7 +111,7 @@ class Robot {
             multiplyMatrix(transformMatrix, translatedPos),
             translationVec
         )
-        
+
         // return
         this.x = statef[0]
         this.y = statef[1]
@@ -121,7 +121,7 @@ class Robot {
     // graphics
     rotate = (coordinate, angle, center) => {
         // rotate `coordinate` by an `angle` about `center`
-        
+
         // translate
         const translated = [coordinate[0] - center[0], coordinate[1] - center[1]]
 

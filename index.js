@@ -38,7 +38,7 @@ const correctCenter = () => {
     }
     if (offsetY > maxOffsetY) {
         const dY = offsetY - maxOffsetY
-        robot.y - centerY > 0 ? centerY += dY : centerY -= dY      
+        robot.y - centerY > 0 ? centerY += dY : centerY -= dY
     }
 }
 
@@ -83,7 +83,7 @@ const refresh = () => {
     for (let i = 0; i < path.length - 1; i++) {
         two.segment(path[i], path[i + 1])
     }
-    
+
     // robot
     robot.draw()
 
@@ -134,14 +134,14 @@ canvas.addEventListener('mouseup', () => {
 })
 canvas.addEventListener('mousemove', e => {
     if (!move) return
-    
+
     let xpos = e.clientX - canvas.offsetLeft
     let ypos = e.clientY - canvas.offsetTop
 
     const transformed = two.Camera.invTransform([xpos, ypos])
     const X = joystick.x + centerX - 5
     const Y = joystick.y + centerY - 5
-    
+
     const dX = transformed[0] - X
     const dY = transformed[1] - Y
 

@@ -33,8 +33,8 @@ class Controller {
             let cX = X + dX
             let height = 3 * width
             two.polygon([
-                [cX - width / 4, Y + height], 
-                [cX - width / 4, Y - height], 
+                [cX - width / 4, Y + height],
+                [cX - width / 4, Y - height],
                 [cX - width / 4 + Math.sqrt(3) * height, Y]
             ])
         } else {
@@ -42,8 +42,8 @@ class Controller {
             let cX = X + dX
             let height = 3 * width
             two.polygon([
-                [cX + width / 4, Y + height], 
-                [cX + width / 4, Y - height], 
+                [cX + width / 4, Y + height],
+                [cX + width / 4, Y - height],
                 [cX + width / 4 - Math.sqrt(3) * height, Y]
             ])
         }
@@ -59,8 +59,8 @@ class Controller {
             let cY = Y + dY
             let height = 3 * width
             two.polygon([
-                [X - height, cY - width / 4], 
-                [X + height, cY - width / 4], 
+                [X - height, cY - width / 4],
+                [X + height, cY - width / 4],
                 [X, cY - width / 4 + Math.sqrt(3) * height]
             ])
         } else {
@@ -68,8 +68,8 @@ class Controller {
             let cY = Y + dY
             let height = 3 * width
             two.polygon([
-                [X - height, cY + width / 4], 
-                [X + height, cY + width / 4], 
+                [X - height, cY + width / 4],
+                [X + height, cY + width / 4],
                 [X, cY + width / 4 - Math.sqrt(3) * height]
             ])
         }

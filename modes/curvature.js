@@ -36,7 +36,7 @@ class Curvature {
             r = 0
         } if (Math.abs(theta) < this.thetaEpsilon) {
             theta = 0
-        }   
+        }
 
         // straight line movement
         if (theta == 0) {

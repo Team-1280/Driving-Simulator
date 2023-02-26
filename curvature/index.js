@@ -38,7 +38,7 @@ const correctCenter = () => {
     }
     if (offsetY > maxOffsetY) {
         const dY = offsetY - maxOffsetY
-        robot.y - centerY > 0 ? centerY += dY : centerY -= dY      
+        robot.y - centerY > 0 ? centerY += dY : centerY -= dY
     }
 }
 
@@ -83,7 +83,7 @@ const refresh = () => {
     for (let i = 0; i < path.length - 1; i++) {
         two.segment(path[i], path[i + 1])
     }
-    
+
     // robot
     robot.draw()
 
@@ -124,7 +124,7 @@ trace()
 document.body.addEventListener('keyup', e => {
     if (e.key == 'ArrowUp' || e.key == 'ArrowDown') {
         deltaVertical = 0
-    }if (e.key == 'ArrowLeft' || e.key == 'ArrowRight') {
+    } if (e.key == 'ArrowLeft' || e.key == 'ArrowRight') {
         deltaHorizontal = 0
     }
 })

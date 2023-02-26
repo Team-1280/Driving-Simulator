@@ -25,6 +25,6 @@ const multiplyMatrix = (matrix, vec) => {
 
         out.push(sum)
     }
-    
+
     return out
 }
