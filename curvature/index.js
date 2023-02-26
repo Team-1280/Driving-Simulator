@@ -8,7 +8,7 @@ canvas.height = size
 
 // initialize drive modes
 const robot = new Robot(5, 5, Math.PI / 2, 2.25)
-const StandardDrive = new Standard(robot, 2)
+const CurvatureDrive = new Curvature(robot, 2)
 
 // initialize controller state
 let horizontal = 0
@@ -43,10 +43,9 @@ const correctCenter = () => {
 }
 
 // drive mode callbacks
-// TODO: change this to curvature drive
-const standard = (magnitude, angle) => {
-    const velocities = StandardDrive.set(
-        magnitude, angle,
+const curvature = (horizontal, vertical) => {
+    const velocities = CurvatureDrive.set(
+        vertical, horizontal,
         [robot.x, robot.y, (robot.theta) % (2 * Math.PI)]
     )
     robot.delta(velocities[0], velocities[1], 0.05)
@@ -55,7 +54,7 @@ const standard = (magnitude, angle) => {
 // get context
 const ctx = canvas.getContext('2d')
 const two = new hulet.Cartesian(ctx, 10, 10)
-const controller = new Controller(8, 2, 1, standard)
+const controller = new Controller(8, 2, 1, curvature)
 
 const refresh = () => {
     // clear
