@@ -28,7 +28,7 @@ public class Matrix {
 
             out[i] = sum;
         }
-        
+
         return out;
     }
 }
