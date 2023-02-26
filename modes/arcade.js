@@ -85,7 +85,6 @@ class Arcade {
     setTop = (r, theta) => {
         // expects r in [0, 1] and theta measured from right horizontal in [0, pi)
         if (theta <= Math.PI / 2) {
-            // console.log(this.setQ1(r, Math.PI / 2 - theta))
             return this.setQ1(r, Math.PI / 2 - theta)
         } else {
             return this.setQ2(r, theta - Math.PI / 2)
@@ -94,9 +93,9 @@ class Arcade {
     set = (r, theta, state) => {
         // expects r in [0, 1] and theta measured from right horizontal in [0, 2pi)
 
-        // get robot pose
+        // get robot pose (correct for field-oriented controls)
         const pose = state[2] % (2 * Math.PI)
-        const nTheta = pose - theta + Math.PI / 2
+        const nTheta = theta - pose + Math.PI / 2
 
         // check magnitude tolerance
         if (r < this.rEpsilon) {
@@ -104,7 +103,6 @@ class Arcade {
         }
 
         if (theta < Math.PI) {
-            // console.log(this.setTop(r, theta))
             return this.setTop(r, nTheta)
         } else {
             const equivalents = this.setTop(r, 2 * Math.PI - nTheta)
