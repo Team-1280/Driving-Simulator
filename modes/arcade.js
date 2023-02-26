@@ -19,91 +19,97 @@ class Arcade {
     */
 
     constructor(driver, U, r_tolerance, theta_tolerance) {
-        this.robot = driver;
-        this.max = U;
-        this.rEpsilon = r_tolerance || 5e-2;
-        this.thetaEpsilon = theta_tolerance || 5e-2;
+        this.robot = driver
+        this.max = U
+        this.rEpsilon = r_tolerance || 5e-2
+        this.thetaEpsilon = theta_tolerance || 5e-2
     }
 
     lerp = (a, b, u) => {
         // standard linear interpolation between a and b by u in [0, 1]
-        return a + (b - a) * u;
+        return a + (b - a) * u
     }
     setVertical = (r) => {
         // expects r in [0, 1]
-        const power = lerp(0, this.max, r);
-        return [power, power];
+        const power = this.lerp(0, this.max, r)
+        return [power, power]
     }
     setQ1 = (r, theta) => {
         // expects r in [0, 1] and theta measured from vertical in [0, pi/2]
 
         // check angle tolerance
         if (theta < this.thetaEpsilon) {
-            return setVertical(r);
+            return this.setVertical(r)
         }
 
         // min and this.max are used only in reference to magnitude
 
         // calculate angular velocity
-        const omega_min = 0;
-        const omega_max = this.robot.states(this.max, -this.max)[0];
-        const u = theta / (Math.PI / 2);
-        const omega = lerp(omega_min, omega_max, u);
+        const omega_min = 0
+        const omega_max = this.robot.states(this.max, -this.max)[0]
+        const u = theta / (Math.PI / 2)
+        const omega = this.lerp(omega_min, omega_max, u)
 
         // calculate turn radius
-        const R_min = 0;
-        const R_max = (2 * this.max + omega * this.robot.length) / (2 * omega);
-        const R = lerp(R_min, R_max, r);
+        const R_min = 0
+        const R_max = (2 * this.max + omega * this.robot.s) / (2 * omega)
+        const R = this.lerp(R_min, R_max, r)
 
         // get velocities
-        return this.robot.velocities(omega, R);
+        return this.robot.velocities(omega, R)
     }
     setQ2 = (r, theta) => {
         // expects r in [0, 1] and theta measured from vertical in [0, pi/2]
 
         // check angle tolerance
         if (theta < this.thetaEpsilon) {
-            return setVertical(r);
+            return this.setVertical(r)
         }
 
         // min and this.max are used only in reference to magnitude
 
         // calculate angular velocity
-        const omega_min = 0;
-        const omega_max = this.robot.states(-this.max, this.max)[0];
-        const u = theta / (Math.PI / 2);
-        const omega = lerp(omega_min, omega_max, u);
+        const omega_min = 0
+        const omega_max = this.robot.states(-this.max, this.max)[0]
+        const u = theta / (Math.PI / 2)
+        const omega = this.lerp(omega_min, omega_max, u)
 
         // calculate turn radius
-        const R_min = 0;
-        const R_max = (2 * this.max - omega * this.robot.length) / (2 * omega);
-        const R = lerp(R_min, R_max, r);
+        const R_min = 0
+        const R_max = (2 * this.max - omega * this.robot.s) / (2 * omega)
+        const R = this.lerp(R_min, R_max, r)
 
         // get velocities
-        return this.robot.velocities(omega, R);
+        return this.robot.velocities(omega, R)
     }
     setTop = (r, theta) => {
         // expects r in [0, 1] and theta measured from right horizontal in [0, pi)
         if (theta <= Math.PI / 2) {
-            return setQ1(r, Math.PI / 2 - theta);
+            // console.log(this.setQ1(r, Math.PI / 2 - theta))
+            return this.setQ1(r, Math.PI / 2 - theta)
         } else {
-            return setQ2(r, theta - Math.PI / 2);
+            return this.setQ2(r, theta - Math.PI / 2)
         }
     }
     set = (r, theta, state) => {
         // expects r in [0, 1] and theta measured from right horizontal in [0, 2pi)
 
+        // get robot pose
+        const pose = state[2] % (2 * Math.PI)
+        const nTheta = pose - theta + Math.PI / 2
+
         // check magnitude tolerance
         if (r < this.rEpsilon) {
-            return [0, 0];
+            return [0, 0]
         }
 
         if (theta < Math.PI) {
-            return setTop(r, theta);
+            // console.log(this.setTop(r, theta))
+            return this.setTop(r, nTheta)
         } else {
-            const equivalents = setTop(r, 2 * Math.PI - theta);
-            const bottom = [-equivalents[0], -equivalents[1]];
-            return bottom;
+            const equivalents = this.setTop(r, 2 * Math.PI - nTheta)
+            const bottom = [-equivalents[0], -equivalents[1]]
+            return bottom
         }
     }
 }

@@ -43,7 +43,7 @@ const correctCenter = () => {
 }
 
 // drive mode callbacks
-const standard = (magnitude, angle) => {
+const arcade = (magnitude, angle) => {
     const velocities = ArcadeDrive.set(
         magnitude, angle,
         [robot.x, robot.y, (robot.theta) % (2 * Math.PI)]
@@ -54,7 +54,7 @@ const standard = (magnitude, angle) => {
 // get context
 const ctx = canvas.getContext('2d')
 const two = new hulet.Cartesian(ctx, 10, 10)
-const joystick = new Joystick(8, 2, 1.25, standard)
+const joystick = new Joystick(8, 2, 1.25, arcade)
 
 const refresh = () => {
     // clear
