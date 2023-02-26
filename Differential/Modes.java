@@ -254,19 +254,20 @@ public class Modes {
                 return new double[] {power, power};
             }
     
-            // calculate new parameters
-            double R = r / theta;
-            double[] velocities = robot.velocities(theta, R);
+            // calculate parameter bounds
+            double theta_k = theta / 2 + 1 / 2;
+            double omega_max = 2 * max / robot.length;
+            double omega = lerp(-omega_max, omega_max, theta_k);
 
-            // calculate scaling factor
-            double r_scaled = Math.abs(r);
-            double theta_scaled = Math.abs(theta);
-            double k = (r_scaled + theta_scaled) / 2;
-    
-            // scale output
-            velocities[0] *= k;
-            velocities[1] *= k;
-    
+            // calculate new parameters
+            double R;
+            if (omega > 0) {
+                R = (2 * max - omega * robot.length) / (2 * omega);
+            } else {
+                R = (2 * max + omega * robot.length) / (2 * omega);
+            }
+            double[] velocities = robot.velocities(omega, R);
+            
             return velocities;
         }
     }
