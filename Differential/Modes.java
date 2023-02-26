@@ -26,7 +26,7 @@ public class Modes {
             thetaEpsilon = theta_tolerance;
         }
         public Standard(Drive driver, double U) {
-            this(driver, U, 5e-2, 7e-2);
+            this(driver, U, 0.1, 0.1);
         }
     
         double lerp(double a, double b, double u) {
