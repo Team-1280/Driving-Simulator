@@ -26,7 +26,7 @@ public class Modes {
             thetaEpsilon = theta_tolerance;
         }
         public Standard(Drive driver, double U) {
-            this(driver, U, 5e-2, 7e-2);
+            this(driver, U, 0.1, 0.1);
         }
     
         double lerp(double a, double b, double u) {
@@ -178,17 +178,21 @@ public class Modes {
             }
         }
         public double[] set(double r, double theta, double[] state) {
-            // expects r in [0, 1] and theta measured from right horizontal in [0, 2pi)
-    
+            // expects r in [0, 1] and theta measured from right horizontal
+
+            // get robot pose (correct for field-oriented controls)
+            double pose = state[2] % (2 * Math.PI);
+            double nTheta = (2 * Math.PI + theta - pose + Math.PI / 2) % (2 * Math.PI);
+
             // check magnitude tolerance
             if (r < rEpsilon) {
                 return new double[] {0, 0};
             }
 
-            if (theta < Math.PI) {
-                return setTop(r, theta);
+            if (nTheta < Math.PI) {
+                return setTop(r, nTheta);
             } else {
-                double[] equivalents = setTop(r, 2 * Math.PI - theta);
+                double[] equivalents = setTop(r, 2 * Math.PI - nTheta);
                 double[] bottom = {-equivalents[0], -equivalents[1]};
                 return bottom;
             }
