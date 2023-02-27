@@ -57,6 +57,7 @@ class Curvature {
         } else {
             R = (2 * this.max + omega * this.robot.s) / (2 * omega)
         }
+        // TODO: use right joystick
         let velocities = this.robot.velocities(omega, R)
 
         return velocities
