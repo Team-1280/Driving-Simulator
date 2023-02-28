@@ -43,12 +43,16 @@ class Curvature {
             const v_k = r / 2 + 1 / 2
             const power = this.lerp(-this.max, this.max, v_k)
             return [power, power]
+        } if (r == 0) {
+            return [0, 0]
         }
 
         // calculate parameter bounds
-        const theta_k = theta / 2 + 1 / 2
+        const dir = Math.sign(theta)
+        const rotation = Math.sign(r)
+        const theta_k = Math.abs(theta)
         const omega_max = 2 * this.max / this.robot.s
-        const omega = this.lerp(-omega_max, omega_max, theta_k)
+        const omega = rotation * this.lerp(0, omega_max, theta_k)
 
         // calculate new parameters
         let R
@@ -57,8 +61,10 @@ class Curvature {
         } else {
             R = (2 * this.max + omega * this.robot.s) / (2 * omega)
         }
-        // TODO: use right joystick
-        let velocities = this.robot.velocities(omega, R)
+        R = Math.abs(R)
+        const v_k = Math.abs(r)
+        R = dir * this.lerp(0, R, v_k)
+        let velocities = this.robot.velocities(dir * omega, R)
 
         return velocities
     }

@@ -277,12 +277,16 @@ public class Modes {
                 double v_k = r / 2 + 1 / 2;
                 double power = lerp(-max, max, v_k);
                 return new double[] { power, power };
+            } if (r == 0) {
+                return new double[] {0, 0};
             }
 
             // calculate parameter bounds
-            double theta_k = theta / 2 + 1 / 2;
+            double dir = Math.signum(theta);
+            double rotation = Math.signum(r);
+            double theta_k = Math.abs(theta);
             double omega_max = 2 * max / robot.length;
-            double omega = lerp(-omega_max, omega_max, theta_k);
+            double omega = rotation * lerp(0, omega_max, theta_k);
 
             // calculate new parameters
             double R;
@@ -291,7 +295,10 @@ public class Modes {
             } else {
                 R = (2 * max + omega * robot.length) / (2 * omega);
             }
-            double[] velocities = robot.velocities(omega, R);
+            R = Math.abs(R);
+            double v_k = Math.abs(r);
+            R = dir * this.lerp(0, r, v_k);
+            double[] velocities = robot.velocities(dir * omega, R);
 
             return velocities;
         }
