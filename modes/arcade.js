@@ -7,7 +7,7 @@ class Arcade {
      * For positions in the top right quadrant of the joystick's movement area,
      * increasing joystick angle from top center sets more negative angular velocity and turn
      * radius is decreased linearly with joystick magnitude starting at zero for zero magnitude
-     * and ending at the most negative value that this.maximizes the motor velocity for full
+     * and ending at the most negative value that maximizes the motor velocity for full
      * magnitude.
      * The top left quadrant features the opposite behavior for left turns instead of right
      * turns.
