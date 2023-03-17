@@ -64,17 +64,13 @@ public class Modes {
         return new double[] {power, power};
       }
 
-      // choose between forwards and backwards movement
-      double target;
-      if (dTheta < dThetaBackwards) {
-        target = theta;
-      } else {
-        target = (theta + Math.PI) % (2 * Math.PI);
-      }
+      // constant target
+      double target = theta;
 
       // find turning direction to target
       double turnAngle = pose - target;
       double power = lerp(0, max, 2 * Math.abs(turnAngle) / Math.PI);
+      
       if (turnAngle < 0) {
         // left turn
         return new double[] {-power, power};
