@@ -51,12 +51,10 @@ class StandardRobot {
         let target = theta
 
         // find turning direction to target
-        const turnAngle = Math.abs(pose - target)
-        const power = this.lerp(0, this.max, 2 * turnAngle / Math.PI);
-        const verticalPose = (pose - 3 * Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI)
-        const verticalTarget = (target - 3 * Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI)
+        const turnAngle = pose - target
+        const power = this.lerp(0, this.max, 2 * Math.abs(turnAngle) / Math.PI);
         
-        if (verticalPose - verticalTarget < 0) {
+        if (turnAngle < 0) {
             // left turn
             return [-power, power]
         } else {
